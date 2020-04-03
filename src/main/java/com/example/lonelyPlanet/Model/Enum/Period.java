@@ -1,4 +1,4 @@
-package com.example.lonelyPlanet.Model;
+package com.example.lonelyPlanet.Model.Enum;
 
 public enum Period {
     morning,

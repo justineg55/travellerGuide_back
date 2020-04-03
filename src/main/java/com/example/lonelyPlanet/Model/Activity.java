@@ -1,7 +1,7 @@
-package com.example.lonelyPlanet.Controller;
+package com.example.lonelyPlanet.Model;
 
-import com.example.lonelyPlanet.Model.Budget;
-import com.example.lonelyPlanet.Model.Period;
+import com.example.lonelyPlanet.Model.Enum.Budget;
+import com.example.lonelyPlanet.Model.Enum.Period;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,7 +14,7 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
-public class ActivityController {
+public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -31,11 +31,11 @@ public class ActivityController {
 
     @ManyToOne
     @JoinColumn(name = "id_city")
-    private CityController city;
+    private City city;
 
     @ManyToMany
     @JoinTable(name = "activity_category",joinColumns = @JoinColumn(name = "id_activity"),inverseJoinColumns = @JoinColumn(name = "id_category"))
-    Set<CategoryController> listCategory;
+    Set<Category> listCategory;
 
 
 
