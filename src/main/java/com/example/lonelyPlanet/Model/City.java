@@ -1,6 +1,8 @@
 package com.example.lonelyPlanet.Model;
 
 import com.example.lonelyPlanet.Model.Activity;
+import com.example.lonelyPlanet.View.MyJsonView;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,9 +19,16 @@ import java.util.List;
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(MyJsonView.VueActivity.class)
     private Integer id;
+
+    @JsonView(MyJsonView.VueActivity.class)
     private String cityName;
+
+    @JsonView(MyJsonView.VueActivity.class)
     private String countryName;
+
+    @JsonView(MyJsonView.VueActivity.class)
     private String urlPicture;
 
     @OneToMany(mappedBy="city")
