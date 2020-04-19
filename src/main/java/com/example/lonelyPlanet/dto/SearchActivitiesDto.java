@@ -8,7 +8,8 @@ import java.util.List;
 @Data
 public class SearchActivitiesDto {
     int cityId;
-    List<Period> period;
+//    List<Period> period;
+    List<String> period;
     int userId;
 
 }

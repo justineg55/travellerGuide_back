@@ -21,34 +21,45 @@ import java.util.Set;
 @CrossOrigin
 public class ActivityController {
     private ActivityDao activityDao;
-
+    private UserDao userDao;
 
     @Autowired
-    public ActivityController(ActivityDao activityDao) {
+    public ActivityController(ActivityDao activityDao, UserDao userDao) {
         this.activityDao = activityDao;
+        this.userDao = userDao;
     }
 
     @GetMapping("/activities/{id}")
-    public Activity getActivity(@PathVariable int id){
+    public Activity getActivity(@PathVariable int id) {
         return activityDao.findById(id).orElse(null);
     }
 
     @GetMapping("/activities")
     @JsonView(MyJsonView.VueActivity.class)
-    public List<Activity> getActivities(){
+    public List<Activity> getActivities() {
         return activityDao.findAll();
     }
 
-//    @PostMapping("/recherche")
-//    public List<Activity> getActivitiesAfterSearch(@RequestBody SearchActivitiesDto searchActivitiesDto){
-//        int userId=searchActivitiesDto.getUserId();
-//        UserDao userDao;
-//        User user=userDao.findById(userId);
-//        Budget budgetSearch=user.getBudget();
-//        Set<Category> categoriesSearch=user.getListCategory();
-//        int cityId=searchActivitiesDto.getCityId();
-//        List <Period> periodSearch=searchActivitiesDto.getPeriod()
+    @PostMapping("/recherche")
+    public List<Activity> getActivitiesAfterSearch(@RequestBody SearchActivitiesDto searchActivitiesDto) {
+        int userId = searchActivitiesDto.getUserId();
 
-//    }
+        User user = userDao.findById(userId).orElse(null);
+        // TODO : deal w/ NullPointer
+        Budget budgetSearch = user.getBudget();
+        Set<Category> categoriesSearch = user.getListCategory();
+        System.out.println("liste de categories :" + categoriesSearch);
+        int cityId = searchActivitiesDto.getCityId();
+        List<String> periodsSearch = searchActivitiesDto.getPeriod();
+
+        List <Integer> getIdActivitiesResults =activityDao.getActivitiesAfterSearch(categoriesSearch,periodsSearch, cityId);
+        List<Activity> activitiesResults=new ArrayList<>();
+        for(int id:getIdActivitiesResults){
+            Activity activity=activityDao.findById(id).orElse(null);
+            activitiesResults.add(activity);
+        }
+        return activitiesResults;
+
+    }
 
 }

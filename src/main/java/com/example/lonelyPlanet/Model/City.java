@@ -2,6 +2,7 @@ package com.example.lonelyPlanet.Model;
 
 import com.example.lonelyPlanet.Model.Activity;
 import com.example.lonelyPlanet.View.MyJsonView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class City {
     @JsonView(MyJsonView.VueActivity.class)
     private String urlPicture;
 
+    @JsonIgnore
     @OneToMany(mappedBy="city")
     List<Activity> listActivity = new ArrayList<>();
 

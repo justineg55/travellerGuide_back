@@ -3,6 +3,7 @@ package com.example.lonelyPlanet.Model;
 import com.example.lonelyPlanet.Model.Enum.Budget;
 import com.example.lonelyPlanet.Model.Enum.Period;
 import com.example.lonelyPlanet.View.MyJsonView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,6 +50,7 @@ public class Activity {
     @JsonView(MyJsonView.VueActivity.class)
     private City city;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "activity_category",joinColumns = @JoinColumn(name = "id_activity"),inverseJoinColumns = @JoinColumn(name = "id_category"))
     Set<Category> listCategory;

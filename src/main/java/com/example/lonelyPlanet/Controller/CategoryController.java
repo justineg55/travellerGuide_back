@@ -26,7 +26,7 @@ public class CategoryController {
     }
 
     @GetMapping("/categories")
-    public List<Category> getCategories(){
+    public List<Category> getAllCategories(){
         return categoryDao.findAll();
     }
 

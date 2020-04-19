@@ -2,6 +2,7 @@ package com.example.lonelyPlanet.Model;
 
 import com.example.lonelyPlanet.Model.Enum.Budget;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
