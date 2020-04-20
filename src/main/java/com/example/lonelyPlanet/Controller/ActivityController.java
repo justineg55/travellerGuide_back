@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -41,26 +42,41 @@ public class ActivityController {
         return activityDao.findAll();
     }
 
-    @PostMapping("/recherche")
+    @PostMapping("/search")
     public List<Activity> getActivitiesAfterSearch(@RequestBody SearchActivitiesDto searchActivitiesDto) {
         int userId = searchActivitiesDto.getUserId();
+        System.out.println("userid= "+userId);
 
         User user = userDao.findById(userId).orElse(null);
         // TODO : deal w/ NullPointer
         Budget budgetSearch = user.getBudget();
-        Set<Category> categoriesSearch = user.getListCategory();
-        List<String> categoriesList=new ArrayList<>();
-        //categoriesList.addAll(categoriesSearch);
-        categoriesList = categoriesSearch.stream().map(cat -> cat.getType()).collect(Collectors.toList());
 
+        List <Budget> acceptedBudgets=new ArrayList<>(Arrays.asList(Budget.values()));
+        if(budgetSearch.ordinal()==1)
+            acceptedBudgets.remove(2);
+        else if (budgetSearch.ordinal()==0){
+            acceptedBudgets.remove(2);
+            acceptedBudgets.remove(1);
+        }
+        System.out.println("liste en budget : "+ acceptedBudgets);
+        List<String> acceptedBudgetsToString;
+        acceptedBudgetsToString = acceptedBudgets.stream().map(bud -> bud.toString()).collect(Collectors.toList());
+        System.out.println("liste de strings budgets"+ acceptedBudgetsToString);
+
+//        String budgetUser=budgetSearch.toString();
+
+        Set<Category> categoriesSearch = user.getListCategory();
+        List<String> categoriesList;
+        categoriesList = categoriesSearch.stream().map(cat -> cat.getType()).collect(Collectors.toList());
         System.out.println("liste de categories :" + categoriesSearch);
+
         int cityId = searchActivitiesDto.getCityId();
         System.out.println("cityid : "+ cityId);
 
         List<String> periodsSearch = searchActivitiesDto.getPeriod();
         System.out.println("liste de period : "+ periodsSearch);
 
-        List <Integer> getIdActivitiesResults =activityDao.getActivitiesAfterSearch(periodsSearch, cityId, categoriesList);
+        List <Integer> getIdActivitiesResults =activityDao.getActivitiesAfterSearch(periodsSearch, cityId, acceptedBudgetsToString,categoriesList);
 //        List <Integer> getIdActivitiesResults =activityDao.getActivitiesAfterSearch(categoriesSearch,periodsSearch, cityId);
         System.out.println("liste d'activités' : "+ getIdActivitiesResults);
         List<Activity> activitiesResults=new ArrayList<>();

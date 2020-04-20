@@ -82,7 +82,7 @@ public class MaConfigurationSecurite extends WebSecurityConfigurerAdapter {
                 .antMatchers("/categories").permitAll()
                 .antMatchers("/cities").permitAll()
                 .antMatchers("/activities").permitAll()
-                .antMatchers("/recherche").permitAll()
+                .antMatchers("/search").permitAll()
                 //c'était pour générer une page de login, on va pas l'utiliser avec les tokens
 //                .and()
 //                .formLogin();
