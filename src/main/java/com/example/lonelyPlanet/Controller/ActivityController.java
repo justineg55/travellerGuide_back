@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -48,11 +49,20 @@ public class ActivityController {
         // TODO : deal w/ NullPointer
         Budget budgetSearch = user.getBudget();
         Set<Category> categoriesSearch = user.getListCategory();
+        List<String> categoriesList=new ArrayList<>();
+        //categoriesList.addAll(categoriesSearch);
+        categoriesList = categoriesSearch.stream().map(cat -> cat.getType()).collect(Collectors.toList());
+
         System.out.println("liste de categories :" + categoriesSearch);
         int cityId = searchActivitiesDto.getCityId();
-        List<String> periodsSearch = searchActivitiesDto.getPeriod();
+        System.out.println("cityid : "+ cityId);
 
-        List <Integer> getIdActivitiesResults =activityDao.getActivitiesAfterSearch(categoriesSearch,periodsSearch, cityId);
+        List<String> periodsSearch = searchActivitiesDto.getPeriod();
+        System.out.println("liste de period : "+ periodsSearch);
+
+        List <Integer> getIdActivitiesResults =activityDao.getActivitiesAfterSearch(periodsSearch, cityId, categoriesList);
+//        List <Integer> getIdActivitiesResults =activityDao.getActivitiesAfterSearch(categoriesSearch,periodsSearch, cityId);
+        System.out.println("liste d'activités' : "+ getIdActivitiesResults);
         List<Activity> activitiesResults=new ArrayList<>();
         for(int id:getIdActivitiesResults){
             Activity activity=activityDao.findById(id).orElse(null);

@@ -17,6 +17,6 @@ public interface ActivityDao extends JpaRepository<Activity,Integer> {
             " INNER JOIN traveller.city ci on ci.id =a.id_city " +
             " INNER join traveller.activity_category ac on ac.id_activity =a.id " +
             " INNER join traveller.category c on c.id =ac.id_category " +
-            " where ci.id =:cityId and c.type in (:categoriesSearch) and a.budget ='€' and a.period in(:periodsSearch) group by a.id ")
-    List<Integer> getActivitiesAfterSearch(@Param("categoriesSearch") Set<Category> categoriesSearch, @Param("periodsSearch") List<String> periodsSearch, @Param("cityId") Integer cityId );
+            " where ci.id =:cityId and a.budget ='€' and c.type in (:categoriesList) and a.period in (:periodsSearch) group by a.id ")
+    List<Integer> getActivitiesAfterSearch(@Param("periodsSearch") List<String> periodsSearch, @Param("cityId") Integer cityId, @Param("categoriesList") List<String> categoriesList );
 }

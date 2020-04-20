@@ -1,9 +1,7 @@
 package com.example.lonelyPlanet.Model;
 
 import com.example.lonelyPlanet.Model.Enum.Budget;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -15,7 +13,9 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 //lombok : @Data : ajout des setters et des getters, aussi toString... et on ajoute le constructeur sans argument noArgsConstructor: on ne les voit pas mais sont créés
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+//@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +26,9 @@ public class User {
     @Column(columnDefinition = "ENUM('€','€€','€€€')")
     private Budget budget;
 
+
     @ManyToMany
-    @JoinTable(name = "user_category",joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_category"))
+    @JoinTable(name = "user_category",joinColumns = @JoinColumn(name = "id_user",referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_category",referencedColumnName = "id"))
     Set<Category> listCategory;
 
 
