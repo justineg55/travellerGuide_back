@@ -30,8 +30,8 @@ public class Category {
     Set<User> listUser;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "listCategory")
-//    @EqualsAndHashCode.Exclude
+    @ManyToMany
+    @JoinTable(name = "activity_category",joinColumns = @JoinColumn(name = "id_category",referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_activity",referencedColumnName = "id"))
     Set<Activity> listActivity;
 
 

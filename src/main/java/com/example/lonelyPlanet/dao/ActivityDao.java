@@ -1,15 +1,12 @@
 package com.example.lonelyPlanet.dao;
 
 import com.example.lonelyPlanet.Model.Activity;
-import com.example.lonelyPlanet.Model.Category;
-import com.example.lonelyPlanet.Model.Enum.Period;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface ActivityDao extends JpaRepository<Activity,Integer> {
@@ -23,6 +20,8 @@ public interface ActivityDao extends JpaRepository<Activity,Integer> {
             " INNER JOIN traveller.city ci on ci.id =a.id_city " +
             " INNER join traveller.activity_category ac on ac.id_activity =a.id " +
             " INNER join traveller.category c on c.id =ac.id_category " +
-            " where ci.id =:cityId and a.budget in (:budgetsacceptedUser) and c.type in (:categoriesList) and a.period in (:periodsSearch) group by a.id ")
+            " INNER join traveller.activity_period ap on ap.id_activity =a.id " +
+            " INNER join traveller.period p on p.id =ap.id_period " +
+            " where ci.id =:cityId and a.budget in (:budgetsacceptedUser) and c.type in (:categoriesList) and p.moment in (:periodsSearch) group by a.id ")
     List<Integer> getActivitiesAfterSearch(@Param("periodsSearch") List<String> periodsSearch, @Param("cityId") Integer cityId, @Param("budgetsacceptedUser") List<String> acceptedBudgetsToString, @Param("categoriesList") List<String> categoriesList );
 }
