@@ -20,8 +20,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String pseudo;
+
+    @Column(unique=true)
     private String login;
+
+    private String password;
+    private boolean actif;
+
+    private boolean isAdmin;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('€','€€','€€€')")
     private Budget budget;

@@ -13,14 +13,10 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.sql.DataSource;
 
 @EnableWebSecurity
 public class MaConfigurationSecurite extends WebSecurityConfigurerAdapter {
 
-//    sert pour le jdbcAuthentication
-//    @Autowired
-//    DataSource dataSource;
 
     @Autowired
     MonUserDetailService userDetailService;
@@ -32,41 +28,7 @@ public class MaConfigurationSecurite extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService);
-
-
-        //bien faire attention aux espaces dans la requete sql : il faut qu'il y ait des espaces entre chaque mot
-//        auth.jdbcAuthentication()
-//                .dataSource(dataSource)
-//                .usersByUsernameQuery("select nom, mot_de_passe, actif " +
-//                        "from utilisateur " +
-//                        "where nom= ?")
-//                //récupération des rôles
-//                .authoritiesByUsernameQuery("select u.nom, r.nom " +
-//                        "from role r " +
-//                        "join utilisateur_role ur on r.id = ur.id_role " +
-//                        "join utilisateur u on u.id = ur.id_utilisateur " +
-//                        "where u.nom = ?");
-//
-//                //2eme facon de faire : avec un boolean isadmin dans la table utilisateur
-//                //on est obligé de mettre ROLE_role pour que ca fonctionne dans la bdd, juste admin ne fonctionne pas
-////                .authoritiesByUsernameQuery("select u.nom, IF(u.is_admin,'ROLE_ADMIN','ROLE_USER') " +
-////                "from utilisateur u " +
-////                "where u.nom = ?");
-
     }
-
-//    //surcharge l'authentification
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password("root")
-//                .roles("ADMIN")
-//                .and()
-//                .withUser("user")
-//                .password("root")
-//                .roles("USER");
-//    }
 
     //surcharge l'authorization
     @Override
@@ -75,14 +37,22 @@ public class MaConfigurationSecurite extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 //pour les requêtes qui seront uniquement accessibles avec un profil admin, il faudra ajouter /admin
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+//                .antMatchers("").permitAll()
                 .antMatchers("/authentification").permitAll()
-                .antMatchers("/").permitAll()
+                .antMatchers("/users").permitAll()
+                .antMatchers("/users/*").permitAll()
                 .antMatchers("/categories").permitAll()
+                .antMatchers("/categories/*").permitAll()
                 .antMatchers("/cities").permitAll()
+                .antMatchers("/cities/*").permitAll()
                 .antMatchers("/activities").permitAll()
+                .antMatchers("/activities/*").permitAll()
                 .antMatchers("/search").permitAll()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+//
+////                .antMatchers("/").permitAll()
+//
                 //c'était pour générer une page de login, on va pas l'utiliser avec les tokens
 //                .and()
 //                .formLogin();

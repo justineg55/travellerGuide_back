@@ -70,10 +70,25 @@
 			<version>2.3.0</version>
 		</dependency>
 
-
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id> dev </id>
+			<properties>
+				<password> root </password>
+				<port> 3306 </port>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
+		<resources>
+			<resource>
+				<directory> src/main/resources</directory>
+				<filtering> true </filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

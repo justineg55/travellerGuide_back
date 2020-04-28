@@ -1,7 +1,7 @@
 package com.example.lonelyPlanet.Security;
 
-import com.example.lonelyPlanet.Model.Role;
-import com.example.lonelyPlanet.Model.Utilisateur;
+
+import com.example.lonelyPlanet.Model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 //c'est ici qu'on va regrouper toutes les infos de l'utilisateur
 public class MonUserDetail implements UserDetails {
@@ -19,34 +18,14 @@ public class MonUserDetail implements UserDetails {
         private List<GrantedAuthority> authorities;
 
 
-//        //exemple si on a un boolean isAdmin
-//    public MonUserDetail(String pseudo, String motdepasse, boolean isAdmin) {
-//        this.userName = pseudo;
-//        this.password = motdepasse;
-//        this.active = true;
-//
-//        this.authorities=new ArrayList<>();
-//        if(isAdmin){
-//            this.authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//        }
-//    }
+        public MonUserDetail(User user) {
+            this.userName = user.getLogin();
+            this.password = user.getPassword();
+            this.active = user.isActif();
 
-
-        public MonUserDetail(Utilisateur utilisateur) {
-            this.userName = utilisateur.getPseudo();
-            this.password = utilisateur.getPassword();
-            this.active = utilisateur.isActif();
-
-//            this.authorities = utilisateur.getListeRole().stream()
-//                    .map(Role::getNom)
-//                    .map(SimpleGrantedAuthority::new)
-//                    .collect(Collectors.toList());
-
-            //c'est dans la liste authorities de type GrantedAuthority qu'on doit ajouter les rôles
             this.authorities=new ArrayList<>();
-
-            for(Role role : utilisateur.getListeRole()){
-                this.authorities.add(new SimpleGrantedAuthority(role.getNom()));
+            if(user.isAdmin()){
+            this.authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
             }
         }
 

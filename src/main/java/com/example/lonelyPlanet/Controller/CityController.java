@@ -2,13 +2,11 @@ package com.example.lonelyPlanet.Controller;
 
 import com.example.lonelyPlanet.Model.Activity;
 import com.example.lonelyPlanet.Model.City;
+import com.example.lonelyPlanet.Model.User;
 import com.example.lonelyPlanet.dao.ActivityDao;
 import com.example.lonelyPlanet.dao.CityDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +28,10 @@ public class CityController {
     @GetMapping("/cities")
     public List<City> getCities() {
         return cityDao.findAll();
+    }
+
+    @PutMapping("/cities")
+    public City saveCity(@RequestBody City city) {
+        return cityDao.save(city);
     }
 }

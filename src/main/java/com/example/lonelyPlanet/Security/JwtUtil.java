@@ -35,7 +35,7 @@ public class JwtUtil {
 
         //ici vous pouvez rajouter tout ce que vous voulez comme données sauf le mot de passe
         //ici on a ajouté le role
-        tokenData.put("roles", userDetails.getAuthorities().stream()
+        tokenData.put("role", userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(",")));
 

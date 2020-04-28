@@ -41,6 +41,11 @@ public class ActivityController {
         return activityDao.findAll();
     }
 
+    @PutMapping("/activities")
+    public int saveActivity(@RequestBody Activity activity) {
+        return activityDao.save(activity).getId();
+    }
+
     @PostMapping("/search")
     public List<Activity> getActivitiesAfterSearch(@RequestBody SearchActivitiesDto searchActivitiesDto) {
         //on récupère l'id de l'user connecté grâce au searchActivitiesDto

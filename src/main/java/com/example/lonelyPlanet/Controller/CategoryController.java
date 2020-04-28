@@ -1,12 +1,10 @@
 package com.example.lonelyPlanet.Controller;
 
 import com.example.lonelyPlanet.Model.Category;
+import com.example.lonelyPlanet.Model.City;
 import com.example.lonelyPlanet.dao.CategoryDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +26,11 @@ public class CategoryController {
     @GetMapping("/categories")
     public List<Category> getAllCategories(){
         return categoryDao.findAll();
+    }
+
+    @PutMapping("/categories")
+    public Category saveCategory(@RequestBody Category category) {
+        return categoryDao.save(category);
     }
 
 
