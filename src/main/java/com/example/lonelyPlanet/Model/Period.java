@@ -24,8 +24,8 @@ public class Period {
     private String moment;
 
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "activity_period", joinColumns = @JoinColumn(name = "id_period", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_activity", referencedColumnName = "id"))
+    @ManyToMany(mappedBy = "listPeriod")
+//    @JoinTable(name = "activity_period", joinColumns = @JoinColumn(name = "id_period", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "id_activity", referencedColumnName = "id"))
     Set<Activity> listActivity;
 
 

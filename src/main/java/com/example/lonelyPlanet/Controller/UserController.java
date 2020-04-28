@@ -60,6 +60,7 @@ public class UserController {
 
     @PutMapping("/users")
     public int saveUser(@RequestBody User user) {
+        //je retourne l'id du user enregistré en bdd (cela évite de voir le mdp)
         return userDao.save(user).getId();
     }
 
