@@ -50,7 +50,7 @@ public class ActivityController {
     public List<Activity> getActivitiesAfterSearch(@RequestBody SearchActivitiesDto searchActivitiesDto) {
         //on récupère l'id de l'user connecté grâce au searchActivitiesDto
         int userId = searchActivitiesDto.getUserId();
-        System.out.println("userid= " + userId);
+//        System.out.println("userid= " + userId);
 
         //on récupère l'objet user avec l'id récupéré avant
         User user = userDao.findById(userId).orElse(null);
@@ -76,27 +76,27 @@ public class ActivityController {
             List<String> acceptedBudgetsToString;
             //on convertit la liste des budgets en type String car notre requete prend des liste de String en paramètre
             acceptedBudgetsToString = acceptedBudgets.stream().map(bud -> bud.toString()).collect(Collectors.toList());
-            System.out.println("liste de strings budgets" + acceptedBudgetsToString);
+//            System.out.println("liste de strings budgets" + acceptedBudgetsToString);
 
             //on récupère les préférences de l'user pour les catégories
             Set<Category> categoriesSearch = user.getListCategory();
             List<String> categoriesList;
             //on convertit cette liste en type String pour la requête qui prend en paramètre des listes de string
             categoriesList = categoriesSearch.stream().map(cat -> cat.getType()).collect(Collectors.toList());
-            System.out.println("liste de categories :" + categoriesList);
+//            System.out.println("liste de categories :" + categoriesList);
 
 
             //on récupère la ville sélectionnée par l'utilisateur lors de la recherche
             int cityId = searchActivitiesDto.getCityId();
-            System.out.println("cityid : " + cityId);
+//            System.out.println("cityid : " + cityId);
 
             //on récupère la les périodes selectionnées par l'user
             List<String> periodsSearch = searchActivitiesDto.getPeriod();
-            System.out.println("liste de period : " + periodsSearch);
+//            System.out.println("liste de period : " + periodsSearch);
 
             //on fait appel à la méthode getActivitiesAfterSearch dans activityDao qui nous retourne une liste d'id d'activités
             List<Integer> getIdActivitiesResults = activityDao.getActivitiesAfterSearch(periodsSearch, cityId, acceptedBudgetsToString, categoriesList);
-            System.out.println("liste d'activités' : " + getIdActivitiesResults);
+//            System.out.println("liste d'activités' : " + getIdActivitiesResults);
 
             //à partir des id des activités on récupère chaque objet activity correspondant à l'id récupéré grâce à un forEach et on enferme les activités dans une liste
             List<Activity> activitiesResults = new ArrayList<>();
