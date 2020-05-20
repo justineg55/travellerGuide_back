@@ -21,9 +21,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique=true)
+    @Column(nullable = false,unique=true)
     private String login;
 
+    @Column(nullable = false)
     private String password;
     private boolean actif;
 

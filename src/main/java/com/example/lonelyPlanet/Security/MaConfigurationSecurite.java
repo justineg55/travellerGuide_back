@@ -9,9 +9,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 
 @EnableWebSecurity
@@ -35,12 +37,16 @@ public class MaConfigurationSecurite extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //il faut désactiver le fait de ne pas pouvoir faire des requetes sur un autre serveur
         http.csrf().disable()
-                .authorizeRequests()
+                //pour le javascript
+                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+                .and().httpBasic()
+                .and().authorizeRequests()
                 //pour les requêtes qui seront uniquement accessibles avec un profil admin, il faudra ajouter /admin
 //                .antMatchers("").permitAll()
-                .antMatchers("/authentification").permitAll()
-                .antMatchers("/users").permitAll()
-                .antMatchers("/users/*").permitAll()
+                //pour l'inscription et l'authentification il faut que ce soit accessible à tout le monde
+                .antMatchers("/authentification","/inscription").permitAll()
+                .antMatchers("/users/*").hasRole("ADMIN")
+                .antMatchers("/users").hasRole("ADMIN")
                 .antMatchers("/categories").permitAll()
                 .antMatchers("/categories/*").permitAll()
                 .antMatchers("/cities").permitAll()
@@ -66,9 +72,13 @@ public class MaConfigurationSecurite extends WebSecurityConfigurerAdapter {
     }
 
 
+    //le @Bean permet de faire un héritage
     @Bean
     public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+
+//        return NoOpPasswordEncoder.getInstance();
+        //on va crypter le mot de passe :
+        return new BCryptPasswordEncoder();
     }
 
     //ajouté pour ne pas avoir de problème avec le autowired de UtilisateurController

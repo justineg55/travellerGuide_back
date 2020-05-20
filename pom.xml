@@ -69,15 +69,27 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
 	<profiles>
 		<profile>
-			<id> dev </id>
+			<id> default</id>
+
+			<activation>
+			<activeByDefault> true </activeByDefault>
+			</activation>
+
 			<properties>
-				<password> root </password>
+				<password> </password>
 				<port> 3306 </port>
+				<secret> root123 </secret>
+				<user> root </user>
 			</properties>
 		</profile>
 	</profiles>
