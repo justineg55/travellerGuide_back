@@ -21,18 +21,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    //ici on met le login en unique=true car on ne peut pas avoir 2 login identiques
     @Column(nullable = false,unique=true)
     private String login;
 
     @Column(nullable = false)
     private String password;
     private boolean actif;
-
-    private boolean isAdmin;
+    private boolean admin;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('€','€€','€€€')")
     private Budget budget;
+
+    private String nomAvatar;
 
 
     @ManyToMany
