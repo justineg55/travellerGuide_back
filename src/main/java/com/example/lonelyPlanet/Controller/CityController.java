@@ -20,16 +20,19 @@ public class CityController {
         this.cityDao = cityDao;
     }
 
+    //Récupérer une ville par son id
     @GetMapping("/cities/{id}")
     public City getCity(@PathVariable int id) {
         return cityDao.findById(id).orElse(null);
     }
 
+    //Récupérer la liste des villes
     @GetMapping("/cities")
     public List<City> getCities() {
         return cityDao.findAll();
     }
 
+    //Enregistrer une nouvelle ville
     @PutMapping("/cities")
     public City saveCity(@RequestBody City city) {
         return cityDao.save(city);

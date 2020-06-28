@@ -30,27 +30,31 @@ public class ActivityController {
         this.userDao = userDao;
     }
 
+    //Récupérer une activité par son id
     @GetMapping("/activities/{id}")
     public Activity getActivity(@PathVariable int id) {
         return activityDao.findById(id).orElse(null);
     }
 
+    //Récupérer la liste des activités
     @GetMapping("/activities")
     @JsonView(MyJsonView.VueActivity.class)
     public List<Activity> getActivities() {
         return activityDao.findAll();
     }
 
+    //Enregistrer une nouvelle activité
     @PutMapping("/activities")
     public int saveActivity(@RequestBody Activity activity) {
         return activityDao.save(activity).getId();
     }
 
+    //Obtenir la liste des activités résultant de la recherche en fonction des préférences utilisateur (catégories et budget max), d'une ville et de périodes
     @PostMapping("/search")
     public List<Activity> getActivitiesAfterSearch(@RequestBody SearchActivitiesDto searchActivitiesDto) {
         //on récupère l'id de l'user connecté grâce au searchActivitiesDto
         int userId = searchActivitiesDto.getUserId();
-//        System.out.println("userid= " + userId);
+        System.out.println("searchActivitiesDto= " + searchActivitiesDto.toString());
 
         //on récupère l'objet user avec l'id récupéré avant
         User user = userDao.findById(userId).orElse(null);
@@ -92,7 +96,7 @@ public class ActivityController {
 
             //on récupère la les périodes selectionnées par l'user
             List<String> periodsSearch = searchActivitiesDto.getPeriod();
-//            System.out.println("liste de period : " + periodsSearch);
+            System.out.println("liste de period : " + periodsSearch);
 
             //on fait appel à la méthode getActivitiesAfterSearch dans activityDao qui nous retourne une liste d'id d'activités
             List<Integer> getIdActivitiesResults = activityDao.getActivitiesAfterSearch(periodsSearch, cityId, acceptedBudgetsToString, categoriesList);

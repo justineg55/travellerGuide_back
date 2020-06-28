@@ -12,6 +12,8 @@ import java.util.List;
 
 //c'est ici qu'on va regrouper toutes les infos de l'utilisateur
 public class MonUserDetail implements UserDetails {
+        //pour permettre de récupérer l'id dans le token
+        private int id;
         private String userName;
         private String password;
         private boolean active;
@@ -19,13 +21,16 @@ public class MonUserDetail implements UserDetails {
 
 
         public MonUserDetail(User user) {
+            this.id=user.getId();
             this.userName = user.getLogin();
             this.password = user.getPassword();
             this.active = user.isActif();
 
             this.authorities=new ArrayList<>();
             if(user.isAdmin()){
-            this.authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                this.authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            }else{
+                this.authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
             }
         }
 
@@ -33,6 +38,10 @@ public class MonUserDetail implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    public int getId(){
+            return id;
     }
 
     @Override
@@ -68,5 +77,16 @@ public class MonUserDetail implements UserDetails {
     @Override
     public boolean isEnabled() {
         return active;
+    }
+
+    @Override
+    public String toString() {
+        return "MonUserDetail{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                ", authorities=" + authorities +
+                '}';
     }
 }

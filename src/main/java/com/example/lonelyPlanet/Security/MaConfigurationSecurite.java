@@ -37,29 +37,18 @@ public class MaConfigurationSecurite extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //il faut désactiver le fait de ne pas pouvoir faire des requetes sur un autre serveur
         http.csrf().disable()
-                //pour le javascript
+                //pour faire une requete avec javascript
 //                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
 //                .and().httpBasic()
 //                .and().authorizeRequests()
                 .authorizeRequests()
-                //pour les requêtes qui seront uniquement accessibles avec un profil admin, il faudra ajouter /admin
-//                .antMatchers("").permitAll()
                 //pour l'inscription et l'authentification il faut que ce soit accessible à tout le monde
-                .antMatchers("/authentification","/inscription").permitAll()
-                .antMatchers("/users/**").hasRole("ADMIN")
+                .antMatchers("/authentification","/inscription", "/").permitAll()
                 .antMatchers("/users").hasRole("ADMIN")
-                .antMatchers("/categories").permitAll()
-                .antMatchers("/categories/**").permitAll()
-                .antMatchers("/cities").permitAll()
-                .antMatchers("/cities/**").permitAll()
-                .antMatchers("/activities").permitAll()
-                .antMatchers("/activities/**").permitAll()
-                .antMatchers("/search").permitAll()
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-//
-////                .antMatchers("/").permitAll()
-//
+                .antMatchers("/categories", "/categories/**",
+                        "/cities", "/cities/**",
+                        "/activities", "/activities/**",
+                        "users/**", "/search").hasAnyRole("USER", "ADMIN")
                 //c'était pour générer une page de login, on va pas l'utiliser avec les tokens
 //                .and()
 //                .formLogin();

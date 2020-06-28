@@ -42,6 +42,17 @@ public class User {
     Set<Category> listCategory;
 
 
-
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", actif=" + actif +
+                ", admin=" + admin +
+                ", budget=" + budget +
+                ", nomAvatar='" + nomAvatar + '\'' +
+                ", listCategory=" + listCategory +
+                '}';
+    }
 }

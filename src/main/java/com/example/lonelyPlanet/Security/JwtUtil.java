@@ -29,13 +29,18 @@ public class JwtUtil {
     }
 
     //Retourne un token
-    public String generateToken(UserDetails userDetails) {
+    //au lieu de mettre UserDetails userDetails , on met MonUserDetail monuserDetail pour pouvoir utiliser la méthode getId qu'on a ajouté dans MonUserDetail
+    public String generateToken(MonUserDetail monUserDetail) {
 
         Map<String, Object> tokenData = new HashMap<>();
 
         //ici vous pouvez rajouter tout ce que vous voulez comme données sauf le mot de passe
+        //on ajoute l'id de user dans le payload du token pour pouvoir le récupérer par la suite
+        tokenData.put("id", monUserDetail.getId());
+
+
         //ici on a ajouté le role
-        tokenData.put("role", userDetails.getAuthorities().stream()
+        tokenData.put("role", monUserDetail.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(",")));
 
@@ -43,7 +48,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setClaims(tokenData)
                 //sub dans le token
-                .setSubject(userDetails.getUsername())
+                .setSubject(monUserDetail.getUsername())
                 //date d'aujourd'hui qu'il faut mettre en milliseconds
                 //iat
                 .setIssuedAt(new Date(System.currentTimeMillis()))
