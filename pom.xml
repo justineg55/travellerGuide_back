@@ -80,16 +80,27 @@
 	<profiles>
 		<profile>
 			<id> default</id>
-
 			<activation>
 			<activeByDefault> true </activeByDefault>
 			</activation>
-
 			<properties>
 				<password> </password>
 				<port> 3306 </port>
 				<secret> root123 </secret>
 				<user> root </user>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<properties>
+				<host>us-cdbr-east-02.cleardb.com</host>
+				<port>3306</port>
+				<name>ad_737ab8648408c4d</name>
+				<params></params>
+				<user>b6c69370821f63</user>
+				<password>95b2f525</password>
+				<secret>root123</secret>
 			</properties>
 		</profile>
 	</profiles>
