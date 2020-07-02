@@ -76,6 +76,7 @@ public class UserController {
     //récupération d'un utilisateur par son id
     @GetMapping("/users/{id}")
     public User getUser(@PathVariable int id) {
+
         return userDao.findById(id).orElse(null);
     }
 

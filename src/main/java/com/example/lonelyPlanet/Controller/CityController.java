@@ -6,6 +6,7 @@ import com.example.lonelyPlanet.Model.User;
 import com.example.lonelyPlanet.dao.ActivityDao;
 import com.example.lonelyPlanet.dao.CityDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +34,15 @@ public class CityController {
     }
 
     //Enregistrer une nouvelle ville
-    @PutMapping("/cities")
-    public City saveCity(@RequestBody City city) {
-        return cityDao.save(city);
+    @PutMapping("/city")
+    public ResponseEntity saveCity(@RequestBody City city) {
+
+        if (city != null) {
+            cityDao.save(city);
+            return ResponseEntity.ok().build();
+
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 }

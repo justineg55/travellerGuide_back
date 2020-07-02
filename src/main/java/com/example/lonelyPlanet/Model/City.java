@@ -33,7 +33,7 @@ public class City {
     private String urlPicture;
 
     @JsonIgnore
-    @OneToMany(mappedBy="city")
+        @OneToMany(mappedBy="city")
     List<Activity> listActivity = new ArrayList<>();
 
 
